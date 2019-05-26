@@ -1,0 +1,1 @@
+# Small string encryption tool
