@@ -24,6 +24,8 @@ namespace Tests
       byte[] first = this.builder.build();
       byte[] second = this.builder.build();
 
+      Assert.AreEqual(length, first.Length);
+      Assert.AreEqual(length, second.Length);
       Assert.AreNotEqual(first, second);
       Assert.AreNotSame(first, second);
     }
