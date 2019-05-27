@@ -15,7 +15,6 @@ namespace EasyEncrypt
     private int length;
     public void setLength(int length)
     {
-
       if(length <= 0)
         throw new ArgumentOutOfRangeException(nameof(length), length, message);
 
