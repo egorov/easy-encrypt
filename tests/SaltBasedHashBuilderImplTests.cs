@@ -1,3 +1,4 @@
+using System;
 using EasyEncrypt;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,7 +16,7 @@ namespace Tests
     }
 
     [TestMethod]
-    public void should_build_hash()
+    public void should_build_same_hash()
     {
       int length = 64;
       this.builder.setLength(length);
@@ -32,11 +33,45 @@ namespace Tests
       byte[] second = this.builder.build();
 
       Assert.AreEqual(length, first.Length);
+      Assert.AreEqual(length, second.Length);
 
       for(int i = 0; i < first.Length; i++)
       {
         Assert.AreEqual(first[i], second[i]);
       }
+    }
+
+    [TestMethod]
+    public void should_throw_setLength()
+    {
+      Action negativeLength = () => this.builder.setLength(-1);
+      Assert.ThrowsException<ArgumentOutOfRangeException>(negativeLength);
+
+      Action zeroLength = () => this.builder.setLength(0);
+      Assert.ThrowsException<ArgumentOutOfRangeException>(zeroLength);
+    }
+
+    [TestMethod]
+    public void should_throw_setIterations()
+    {
+      Action negativeLength = () => this.builder.setIterations(-1);
+      Assert.ThrowsException<ArgumentOutOfRangeException>(negativeLength);
+
+      Action zeroLength = () => this.builder.setIterations(0);
+      Assert.ThrowsException<ArgumentOutOfRangeException>(zeroLength);
+    }
+
+    [TestMethod]
+    public void should_throw_setHashAlgorithm()
+    {
+      Action nullName = () => this.builder.setHashAlgorithm(null);
+      Assert.ThrowsException<ArgumentNullException>(nullName);
+
+      Action emptyName = () => this.builder.setHashAlgorithm("");
+      Assert.ThrowsException<ArgumentNullException>(emptyName);      
+
+      Action whitespaceName = () => this.builder.setHashAlgorithm(" ");
+      Assert.ThrowsException<ArgumentNullException>(whitespaceName);      
     }
   }
 }

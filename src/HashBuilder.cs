@@ -1,10 +1,11 @@
 namespace EasyEncrypt
 {
-  public interface HashBuilder : HashAlgorithmConsumer
+  public interface HashBuilder
   {
     void setLength(int value);
     void setIterations(int value);
     void setOriginal(byte[] value);
+    void setHashAlgorithm(string name);
     byte[] build();
   }
 }
