@@ -1,41 +1,33 @@
 using System;
 using System.Security.Cryptography;
+using Checking;
 
 namespace EasyEncrypt
 {
   public class RandomBytesBuilderImpl : RandomBytesBuilder
   {
-    private RandomNumberGenerator generator;
+    private Value<int> lengthValue;
+    private Value<RandomNumberGenerator> generatorValue;
     public RandomBytesBuilderImpl(RandomNumberGenerator generator)
     {
-      this.generator = generator;
+      this.generatorValue = new ValueAdapter<RandomNumberGenerator>(generator);
+      this.lengthValue = new ValueContainer<int>(new ValidatorsImpl());
     }
 
-    private static readonly string message = "must be positive integer!";
-    private int length;
     public void setLength(int length)
     {
-      if(length <= 0)
-        throw new ArgumentOutOfRangeException(nameof(length), length, message);
-
-      this.length = length;
+      this.lengthValue.set(length);
     }
 
     public byte[] build()
     {
-      this.validateLength();
+      this.lengthValue.validate();
 
-      byte[] result = new byte[this.length];
+      byte[] result = new byte[this.lengthValue.get()];
 
-      this.generator.GetBytes(result);
+      this.generatorValue.get().GetBytes(result);
 
       return result;
-    }
-
-    private void validateLength()
-    {
-      if(this.length <= 0)
-        throw new InvalidOperationException("Call setLength(int) first!");        
     }
   }
 }

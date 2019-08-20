@@ -41,5 +41,13 @@ namespace Tests
       Action lengthIsNotSet = () => this.builder.build();
       Assert.Throws<InvalidOperationException>(lengthIsNotSet);
     }
+
+    [Fact]
+    public void should_throw_on_construction()
+    {
+      Action construct = () => new RandomBytesBuilderImpl(null);
+
+      Assert.Throws<ArgumentNullException>(construct);
+    }
   }
 }
