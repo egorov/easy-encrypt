@@ -11,12 +11,16 @@ namespace EasyEncrypt
     private Value<int> iterationsValue;
     private Value<string> algorithmName;
     private Value<HashAlgorithmName> algorithmValue;
+    private Value<byte[]> originalValue;
+    private Value<byte[]> saltValue;
     public SaltBasedHashBuilderImpl()
     {
       this.lengthValue = new ValueContainer<int>(new ValidatorsImpl());      
       this.iterationsValue = new ValueContainer<int>(new ValidatorsImpl());
       this.algorithmName = new ValueContainer<string>();
       this.algorithmValue = new ValueContainer<HashAlgorithmName>();
+      this.originalValue = new ValueContainer<byte[]>(new ValidatorsImpl());
+      this.saltValue = new ValueContainer<byte[]>(new ValidatorsImpl());
     }
     private static Dictionary<string, HashAlgorithmName> algorithms =
       new Dictionary<string, HashAlgorithmName> {
@@ -32,10 +36,12 @@ namespace EasyEncrypt
       this.lengthValue.validate();
       this.iterationsValue.validate();
       this.algorithmValue.validate();
+      this.originalValue.validate();
+      this.saltValue.validate();
 
       Rfc2898DeriveBytes factory = new Rfc2898DeriveBytes(
-        this.original,
-        this.salt,
+        this.originalValue.get(),
+        this.saltValue.get(),
         this.iterationsValue.get(),
         this.algorithmValue.get()
       );
@@ -69,30 +75,14 @@ namespace EasyEncrypt
       this.lengthValue.set(value);
     }
 
-    private byte[] original;
     public void setOriginal(byte[] value)
     {
-      this.validateBytes(value, "original");
-      this.original = value;
+      this.originalValue.set(value);
     }
 
-    private byte[] salt;
     public void setSalt(byte[] value)
     {
-      this.validateBytes(value, "salt");      
-      this.salt = value;
-    }
-
-    private void validateBytes(byte[] value, string name)
-    {
-      if(value == null)
-        throw new ArgumentNullException("value");
-      
-      string message = 
-        String.Format("{0} Length must be greater than zero!", name);
-
-      if(value.Length == 0)
-        throw new ArgumentException(message);
+      this.saltValue.set(value);
     }
   }
 }
