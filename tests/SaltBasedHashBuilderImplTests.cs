@@ -1,10 +1,9 @@
 using System;
 using EasyEncrypt;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Tests
 {
-  [TestClass]
   public class SaltBasedHashBuilderImplTests
   {
     private SaltBasedHashBuilder builder;
@@ -14,8 +13,7 @@ namespace Tests
     private string hashAlgorithm;
     private byte[] original;
 
-    [TestInitialize]
-    public void setUp()
+    public SaltBasedHashBuilderImplTests()
     {
       this.builder = new SaltBasedHashBuilderImpl();
 
@@ -32,22 +30,22 @@ namespace Tests
       this.builder.setOriginal(original);
     }
 
-    [TestMethod]
+    [Fact]
     public void same_salt_should_produce_same_hash()
     {           
       byte[] first = this.builder.build();
       byte[] second = this.builder.build();
 
-      Assert.AreEqual(length, first.Length);
-      Assert.AreEqual(length, second.Length);
+      Assert.Equal(length, first.Length);
+      Assert.Equal(length, second.Length);
 
       for(int i = 0; i < first.Length; i++)
       {
-        Assert.AreEqual(first[i], second[i]);
+        Assert.Equal(first[i], second[i]);
       }
     }
 
-    [TestMethod]
+    [Fact]
     public void different_salt_should_produce_different_hash()
     {
       byte[] first = this.builder.build();
@@ -56,68 +54,68 @@ namespace Tests
       this.builder.setSalt(anotherSalt);
       byte[] second = this.builder.build();
 
-      Assert.AreEqual(length, first.Length);
-      Assert.AreEqual(length, second.Length);
+      Assert.Equal(length, first.Length);
+      Assert.Equal(length, second.Length);
       
-      Assert.AreNotSame(first, second);
+      Assert.NotSame(first, second);
 
       for(int i = 0; i < first.Length; i++)
       {
-        Assert.AreNotEqual(first[i], second[i]);
+        Assert.NotEqual(first[i], second[i]);
       }
     }
 
-    [TestMethod]
+    [Fact]
     public void should_throw_setLength()
     {
       Action negativeLength = () => this.builder.setLength(-1);
-      Assert.ThrowsException<ArgumentOutOfRangeException>(negativeLength);
+      Assert.Throws<ArgumentOutOfRangeException>(negativeLength);
 
       Action zeroLength = () => this.builder.setLength(0);
-      Assert.ThrowsException<ArgumentOutOfRangeException>(zeroLength);
+      Assert.Throws<ArgumentOutOfRangeException>(zeroLength);
     }
 
-    [TestMethod]
+    [Fact]
     public void should_throw_setIterations()
     {
       Action negativeLength = () => this.builder.setIterations(-1);
-      Assert.ThrowsException<ArgumentOutOfRangeException>(negativeLength);
+      Assert.Throws<ArgumentOutOfRangeException>(negativeLength);
 
       Action zeroLength = () => this.builder.setIterations(0);
-      Assert.ThrowsException<ArgumentOutOfRangeException>(zeroLength);
+      Assert.Throws<ArgumentOutOfRangeException>(zeroLength);
     }
 
-    [TestMethod]
+    [Fact]
     public void should_throw_setHashAlgorithm()
     {
       Action nullName = () => this.builder.setHashAlgorithm(null);
-      Assert.ThrowsException<ArgumentNullException>(nullName);
+      Assert.Throws<ArgumentNullException>(nullName);
 
       Action emptyName = () => this.builder.setHashAlgorithm("");
-      Assert.ThrowsException<ArgumentNullException>(emptyName);      
+      Assert.Throws<ArgumentNullException>(emptyName);      
 
       Action whitespaceName = () => this.builder.setHashAlgorithm(" ");
-      Assert.ThrowsException<ArgumentNullException>(whitespaceName);      
+      Assert.Throws<ArgumentNullException>(whitespaceName);      
     }
 
-    [TestMethod]
+    [Fact]
     public void should_throw_setOriginal()
     {
       Action nullOriginal = () => this.builder.setOriginal(null);
-      Assert.ThrowsException<ArgumentNullException>(nullOriginal);
+      Assert.Throws<ArgumentNullException>(nullOriginal);
 
       Action emptyOriginal = () => this.builder.setOriginal(new byte[] {});
-      Assert.ThrowsException<ArgumentException>(emptyOriginal);
+      Assert.Throws<ArgumentException>(emptyOriginal);
     }
 
-    [TestMethod]
+    [Fact]
     public void should_throw_setSalt()
     {
       Action nullSalt = () => this.builder.setSalt(null);
-      Assert.ThrowsException<ArgumentNullException>(nullSalt);
+      Assert.Throws<ArgumentNullException>(nullSalt);
 
       Action emptySalt = () => this.builder.setSalt(new byte[] {});
-      Assert.ThrowsException<ArgumentException>(emptySalt);
+      Assert.Throws<ArgumentException>(emptySalt);
     }
   }
 }

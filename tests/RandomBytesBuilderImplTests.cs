@@ -1,21 +1,19 @@
 using System;
 using EasyEncrypt;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Tests
 {
-  [TestClass]
   public class RandomBytesBuilderImplTests
   {
     private RandomBytesBuilder builder;
 
-    [TestInitialize]
-    public void setUp()
+    public RandomBytesBuilderImplTests()
     {
       this.builder = new RandomBytesBuilderImpl();
     }
 
-    [TestMethod]
+    [Fact]
     public void should_build_random_bytes()
     {
       int length = 10;
@@ -24,23 +22,23 @@ namespace Tests
       byte[] first = this.builder.build();
       byte[] second = this.builder.build();
 
-      Assert.AreEqual(length, first.Length);
-      Assert.AreEqual(length, second.Length);
-      Assert.AreNotEqual(first, second);
-      Assert.AreNotSame(first, second);
+      Assert.Equal(length, first.Length);
+      Assert.Equal(length, second.Length);
+      Assert.NotEqual(first, second);
+      Assert.NotSame(first, second);
     }
 
-    [TestMethod]
+    [Fact]
     public void should_throw()
     {
       Action lengthBelowZero = () => this.builder.setLength(-1);
-      Assert.ThrowsException<ArgumentOutOfRangeException>(lengthBelowZero);
+      Assert.Throws<ArgumentOutOfRangeException>(lengthBelowZero);
 
       Action zeroLength = () => this.builder.setLength(0);
-      Assert.ThrowsException<ArgumentOutOfRangeException>(zeroLength);
+      Assert.Throws<ArgumentOutOfRangeException>(zeroLength);
 
       Action lengthIsNotSet = () => this.builder.build();
-      Assert.ThrowsException<InvalidOperationException>(lengthIsNotSet);
+      Assert.Throws<InvalidOperationException>(lengthIsNotSet);
     }
   }
 }
