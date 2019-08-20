@@ -1,11 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Checking;
 
 namespace EasyEncrypt
 {
   public class SaltBasedHashBuilderImpl : SaltBasedHashBuilder
   {
+    private Value<int> lengthValue;
+    private Value<int> iterationsValue;
+    private Value<string> algorithmName;
+    private Value<HashAlgorithmName> algorithmValue;
+    public SaltBasedHashBuilderImpl()
+    {
+      this.lengthValue = new ValueContainer<int>(new ValidatorsImpl());      
+      this.iterationsValue = new ValueContainer<int>(new ValidatorsImpl());
+      this.algorithmName = new ValueContainer<string>();
+      this.algorithmValue = new ValueContainer<HashAlgorithmName>();
+    }
     private static Dictionary<string, HashAlgorithmName> algorithms =
       new Dictionary<string, HashAlgorithmName> {
         { "MD5", HashAlgorithmName.MD5 },
@@ -17,26 +29,25 @@ namespace EasyEncrypt
 
     public byte[] build()
     {
+      this.lengthValue.validate();
+      this.iterationsValue.validate();
+      this.algorithmValue.validate();
+
       Rfc2898DeriveBytes factory = new Rfc2898DeriveBytes(
         this.original,
         this.salt,
-        this.iterations,
-        this.hashAlgorithmName
+        this.iterationsValue.get(),
+        this.algorithmValue.get()
       );
 
-      byte[] result = factory.GetBytes(this.length);
+      byte[] result = factory.GetBytes(this.lengthValue.get());
 
       return result;
     }
 
-    private HashAlgorithmName hashAlgorithmName;
     public void setHashAlgorithm(string name)
     {
-      if(string.IsNullOrEmpty(name))
-        throw new ArgumentNullException("name");
-      
-      if(string.IsNullOrWhiteSpace(name))
-        throw new ArgumentNullException("name");
+      this.algorithmName.set(name);
 
       if(!algorithms.ContainsKey(name))
       {
@@ -45,29 +56,17 @@ namespace EasyEncrypt
         throw new ArgumentOutOfRangeException("name", name, message);
       }
 
-      this.hashAlgorithmName = algorithms[name];
+      this.algorithmValue.set(algorithms[name]);
     }
 
-    private int iterations;
     public void setIterations(int value)
     {
-      this.validateInteger(value, "iterations");
-      this.iterations = value;
+      this.iterationsValue.set(value);
     }
 
-    private int length;
     public void setLength(int value)
     {
-      this.validateInteger(value, "length");
-      this.length = value;
-    }
-
-    private void validateInteger(int value, string name)
-    {
-      string message = String.Format("{0} value must be positive integer!", name);
-
-      if(value <= 0)
-        throw new ArgumentOutOfRangeException(name, value, message);
+      this.lengthValue.set(value);
     }
 
     private byte[] original;

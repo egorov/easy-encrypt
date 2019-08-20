@@ -24,5 +24,11 @@ namespace Tests
     {
       Assert.IsAssignableFrom<StringValidator>(this.validators[typeof(string)]);
     }    
+
+    [Fact]
+    public void should_supply_BytesArrayValidator()
+    {
+      Assert.IsAssignableFrom<BytesArrayValidator>(this.validators[typeof(byte[])]);
+    }    
   }
 }
