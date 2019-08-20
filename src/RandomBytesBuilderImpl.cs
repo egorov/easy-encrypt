@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Security.Cryptography;
 
 namespace EasyEncrypt
 {
   public class RandomBytesBuilderImpl : RandomBytesBuilder
   {
-    private RandomNumberGenerator randomNumberGenerator;
-    public RandomBytesBuilderImpl()
+    private RandomNumberGenerator generator;
+    public RandomBytesBuilderImpl(RandomNumberGenerator generator)
     {
-      this.randomNumberGenerator = new RNGCryptoServiceProvider();
+      this.generator = generator;
     }
 
     private static readonly string message = "must be positive integer!";
@@ -27,7 +27,7 @@ namespace EasyEncrypt
 
       byte[] result = new byte[this.length];
 
-      this.randomNumberGenerator.GetBytes(result);
+      this.generator.GetBytes(result);
 
       return result;
     }

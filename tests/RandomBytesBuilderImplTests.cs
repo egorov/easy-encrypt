@@ -1,6 +1,7 @@
 using System;
 using EasyEncrypt;
 using Xunit;
+using System.Security.Cryptography;
 
 namespace Tests
 {
@@ -10,7 +11,7 @@ namespace Tests
 
     public RandomBytesBuilderImplTests()
     {
-      this.builder = new RandomBytesBuilderImpl();
+      this.builder = new RandomBytesBuilderImpl(new RNGCryptoServiceProvider());
     }
 
     [Fact]
