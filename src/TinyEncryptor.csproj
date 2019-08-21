@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyName>TinyEncryptor</AssemblyName>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+    <PackageId>TinyEncryptor</PackageId>
+    <Title>Tiny encryption tool</Title>
+    <Copyright>Copyright ©2019 Sergey Egorov</Copyright>
+    <Authors>Sergey Egorov</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <AssemblyTitle>TinyEncryptor</AssemblyTitle>
+    <Description>Dependency injection friendly small encryption tool</Description>
+    <RepositoryUrl>https://github.com/egorov/tiny-encryptor.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NuspecFile>TinyEncryptor.nuspec</NuspecFile>    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ValueContainer" Version="1.0.2" />
+  </ItemGroup>
+
+</Project>

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace EasyEncrypt
+namespace TinyEncryptor
 {
   public class HashAlgorithmNameDictionary : Dictionary<string, HashAlgorithmName>
   {

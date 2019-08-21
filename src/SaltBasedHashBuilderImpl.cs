@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using Checking;
 
-namespace EasyEncrypt
+namespace TinyEncryptor
 {
   public class SaltBasedHashBuilderImpl : SaltBasedHashBuilder
   {

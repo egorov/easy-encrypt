@@ -1,6 +1,6 @@
 using Checking;
 
-namespace EasyEncrypt
+namespace TinyEncryptor
 {
   public class ValidatorsImpl : ObjectValidators
   {

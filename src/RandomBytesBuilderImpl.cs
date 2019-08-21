@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using Checking;
 
-namespace EasyEncrypt
+namespace TinyEncryptor
 {
   public class RandomBytesBuilderImpl : RandomBytesBuilder
   {

@@ -1,5 +1,5 @@
 using System;
-using EasyEncrypt;
+using TinyEncryptor;
 using Xunit;
 using System.Security.Cryptography;
 

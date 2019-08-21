@@ -1,4 +1,4 @@
-namespace EasyEncrypt
+namespace TinyEncryptor
 {
   public interface SaltBasedHashBuilder : HashBuilder
   {

@@ -1,5 +1,5 @@
 using Checking;
-using EasyEncrypt;
+using TinyEncryptor;
 using Xunit;
 
 namespace Tests

@@ -1,7 +1,7 @@
 using System;
 using Checking;
 
-namespace EasyEncrypt
+namespace TinyEncryptor
 {
   public class BytesArrayValidator : ObjectValidator
   {

@@ -1,7 +1,7 @@
 using Xunit;
 using Checking;
 using System;
-using EasyEncrypt;
+using TinyEncryptor;
 
 namespace Tests
 {

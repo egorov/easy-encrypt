@@ -1,5 +1,5 @@
 using Xunit;
-using EasyEncrypt;
+using TinyEncryptor;
 using System.Security.Cryptography;
 
 namespace Tests

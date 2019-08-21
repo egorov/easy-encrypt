@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\EasyEncrypt.csproj" />
+    <ProjectReference Include="..\src\TinyEncryptor.csproj" />
   </ItemGroup>
 
 </Project>
