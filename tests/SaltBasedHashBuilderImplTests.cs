@@ -95,7 +95,10 @@ namespace Tests
       Assert.Throws<ArgumentNullException>(emptyName);      
 
       Action whitespaceName = () => this.builder.setHashAlgorithm(" ");
-      Assert.Throws<ArgumentNullException>(whitespaceName);      
+      Assert.Throws<ArgumentNullException>(whitespaceName);
+
+      Action unknownName = () => this.builder.setHashAlgorithm("WRONG");
+      Assert.Throws<ArgumentOutOfRangeException>(unknownName);  
     }
 
     [Fact]
@@ -116,6 +119,31 @@ namespace Tests
 
       Action emptySalt = () => this.builder.setSalt(new byte[] {});
       Assert.Throws<ArgumentException>(emptySalt);
+    }
+
+    [Fact]
+    public void should_throw_if_any_of_setter_was_not_called_before_build()
+    {
+      SaltBasedHashBuilder builder = new SaltBasedHashBuilderImpl();
+      
+      Action build = () => builder.build();
+
+      Assert.Throws<InvalidOperationException>(build);
+
+      builder.setHashAlgorithm("SHA1");
+      Assert.Throws<InvalidOperationException>(build);
+
+      builder.setIterations(123);
+      Assert.Throws<InvalidOperationException>(build);
+
+      builder.setLength(30);
+      Assert.Throws<InvalidOperationException>(build);
+
+      builder.setOriginal(new byte[] { 1, 2, 3, 4, 5, 5, 7, 8, 9, 0 });
+      InvalidOperationException error = Assert.Throws<InvalidOperationException>(build);
+
+      builder.setSalt(new byte[] { 1, 2, 3, 4, 5, 5, 7, 8, 9, 0 });
+      builder.build();
     }
   }
 }

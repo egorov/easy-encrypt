@@ -7,6 +7,10 @@ namespace EasyEncrypt
 {
   public class SaltBasedHashBuilderImpl : SaltBasedHashBuilder
   {
+    private static readonly CustomValidators customValidators = 
+      new ValidatorsImpl();
+    private static readonly HashAlgorithmNameDictionary algorithms = 
+      new HashAlgorithmNameDictionary();
     private Value<int> lengthValue;
     private Value<int> iterationsValue;
     private Value<string> algorithmName;
@@ -15,21 +19,13 @@ namespace EasyEncrypt
     private Value<byte[]> saltValue;
     public SaltBasedHashBuilderImpl()
     {
-      this.lengthValue = new ValueContainer<int>(new ValidatorsImpl());      
-      this.iterationsValue = new ValueContainer<int>(new ValidatorsImpl());
+      this.lengthValue = new ValueContainer<int>(customValidators);      
+      this.iterationsValue = new ValueContainer<int>(customValidators);
       this.algorithmName = new ValueContainer<string>();
       this.algorithmValue = new ValueContainer<HashAlgorithmName>();
-      this.originalValue = new ValueContainer<byte[]>(new ValidatorsImpl());
-      this.saltValue = new ValueContainer<byte[]>(new ValidatorsImpl());
+      this.originalValue = new ValueContainer<byte[]>(customValidators);
+      this.saltValue = new ValueContainer<byte[]>(customValidators);
     }
-    private static Dictionary<string, HashAlgorithmName> algorithms =
-      new Dictionary<string, HashAlgorithmName> {
-        { "MD5", HashAlgorithmName.MD5 },
-        { "SHA1", HashAlgorithmName.SHA1},
-        { "SHA256", HashAlgorithmName.SHA256 },
-        { "SHA384", HashAlgorithmName.SHA384 },
-        { "SHA512", HashAlgorithmName.SHA512 }
-      };
 
     public byte[] build()
     {
